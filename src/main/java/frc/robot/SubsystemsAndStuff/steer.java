@@ -11,7 +11,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.ExponentialProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 
 
 public class steer {
@@ -22,6 +22,7 @@ private static final double kV = 0.427607143;
 private static final double kP = .001; //placeholder
 private static final double kI = 0;
 private static final double kD = .001; // placeholder
+private static final double framerate = .2;
 
 
 CANSparkMax canSparkMax;
@@ -33,12 +34,16 @@ private final SimpleMotorFeedforward simpleMotorFeedforward;
 
 public steer(int motuleNumber) {
     canSparkMax = new CANSparkMax(motuleNumber + 10, motortype);
-    simpleMotorFeedforward = new SimpleMotorFeedforward(kS, kV)
+    simpleMotorFeedforward = new SimpleMotorFeedforward(kS, kV);
     pidController = new PIDController(kP, kI, kD);
     double maxVelocity = simpleMotorFeedforward.maxAchievableVelocity(12, 0);
-    double maxAccerlation = simpleMotorFeedforward.maxAchievableAcceleration(12, 0)
+    double maxAccerlation = simpleMotorFeedforward.maxAchievableAcceleration(12, 0);
+    trapezoidProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(maxVelocity, maxAccerlation));
     
 }
+
+
+// woooo getters
 
 public double getPositionDegrees() {
     double degrees = canSparkMax.getEncoder().getPosition() * 360 / gearing;
@@ -51,9 +56,20 @@ public double getVelocityDegreesPerSecond() {
     return degreesPerSecond;
 }
 
+
 // under this is the monster of trying to set position.
 
 
+public void SetMotorToPosition(double positionSetpointDegrees) {
+    double currentPosition = getPositionDegrees();
+    double currentVelocity = getVelocityDegreesPerSecond()
+    var currentState = new TrapezoidProfile.State(currentPosition, currentVelocity);
+    var goalState = new TrapezoidProfile.State(positionSetpointDegrees, 0);
+
+    trapezoidProfile.calculate(framerate, currentState, goalState);
+
+
+}
 
 
 
@@ -67,4 +83,3 @@ public double getVelocityDegreesPerSecond() {
 }
 // using a neo
 // needs to control using position
-// pid tuner
