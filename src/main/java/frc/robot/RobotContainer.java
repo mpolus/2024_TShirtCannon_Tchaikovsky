@@ -4,12 +4,18 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.Elevator;
 
 public class RobotContainer {
+
+  private final Elevator elevator = new Elevator();
+
   public RobotContainer() {
     configureBindings();
+    SmartDashboard.putData("ELEVATOR", elevator);
   }
 
   private void configureBindings() {}
