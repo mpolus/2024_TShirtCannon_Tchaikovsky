@@ -20,7 +20,7 @@ public class steer {
     private static final double kP = .001; // placeholder
     private static final double kI = 0;
     private static final double kD = .001; // placeholder
-    private static final double framerate = .02;
+    private static final double dtseconds = .02;
 
     CANSparkMax canSparkMax;
 
@@ -61,12 +61,12 @@ public class steer {
         var currentState = new TrapezoidProfile.State(currentPosition, currentVelocity);
         var goalState = new TrapezoidProfile.State(positionSetpointDegrees, 0);
         // create a usable goal state using above stuff
-        var profiledstate = trapezoidProfile.calculate(framerate, currentState, goalState);
+        var profiledstate = trapezoidProfile.calculate(dtseconds, currentState, goalState);
 
         // finds voltage to send to motor based off of stuff above.
         var pidvoltage = pidController.calculate(currentVelocity, positionSetpointDegrees);
-        var motorffvoltage = simpleMotorFeedforward.calculate(currentVelocity, profiledstate.velocity, framerate);
-        var voltage = pidvoltage + motorffvoltage;
+        var ffvoltage = simpleMotorFeedforward.calculate(currentVelocity, profiledstate.velocity, dtseconds);
+        var voltage = pidvoltage + ffvoltage;
         canSparkMax.setVoltage(voltage);
 
     }
