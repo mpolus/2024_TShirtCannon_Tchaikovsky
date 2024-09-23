@@ -2,13 +2,13 @@ package frc.robot.SubsystemsAndStuff;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 
 public class driveWheel {
     private static final double gearRatio = 50.0; //placeholder please replace later
-    private static final double weelRadius = .2;//placeholder please replace later
+    private static final double weelRadius = Units.inchesToMeters(2.0);
     private static final double dtseconds = 0.02;
 
     // wooo this chunk is all placeholder values!!!!!
@@ -21,8 +21,6 @@ public class driveWheel {
 
     private final TrapezoidProfile trapezoidProfile;
     private final SimpleMotorFeedforward simpleMotorFeedforward;
-    private final PIDController pidController;
-
     private final TalonFX talonfx;
     
     
@@ -30,7 +28,6 @@ public class driveWheel {
     public driveWheel(int moduleNumber) {
         talonfx = new TalonFX(moduleNumber + 20);
         simpleMotorFeedforward = new SimpleMotorFeedforward(kS, kV, kA);
-        pidController = new PIDController(kP, kI, kD);
         double maxVelocity = simpleMotorFeedforward.maxAchievableVelocity(12, 0);
         double maxAccerlation = simpleMotorFeedforward.maxAchievableAcceleration(12, 0);
         var constraints = new TrapezoidProfile.Constraints(maxVelocity, maxAccerlation);
