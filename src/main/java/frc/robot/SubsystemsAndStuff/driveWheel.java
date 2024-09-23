@@ -38,8 +38,14 @@ public class driveWheel {
 
     }
 
+    public double getVelocityMetersPerSecond() {
+        double somthing = 3434343443.0;//dothis
+        return somthing;
+    }
 
-
+    public void setVelocityMetersPerSecond(double velocity) {
+        //TODO do this
+    }
 
 }
 // using a talonfx
