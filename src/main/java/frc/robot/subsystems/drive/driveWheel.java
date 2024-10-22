@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -6,10 +6,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.CAN;
 
 public class driveWheel {
     private static final double gearRatio = 5.0; // placeholder please replace later
@@ -24,16 +21,16 @@ public class driveWheel {
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
-    private final TalonFX talonfx;
+    private final TalonFX motor;
     private final TalonFXConfiguration talonConfigs = new TalonFXConfiguration();
     private final VelocityVoltage controlRequest;
 
     public driveWheel(int moduleNumber) {
-        talonfx = new TalonFX(moduleNumber + 20);
+        motor = new TalonFX(moduleNumber + 20);
 
 
 
-        talonConfigs.Feedback.SensorToMechanismRatio = gearRatio;
+        talonConfigs.Feedback.SensorToMechanismRatio = gearRatio * 2 * Math.PI * weelRadius;
         talonConfigs.MotionMagic.MotionMagicAcceleration = 10; //wonderfull placeholder
         talonConfigs.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         talonConfigs.MotorOutput.NeutralMode = NeutralModeValue.Brake;
@@ -44,27 +41,22 @@ public class driveWheel {
         talonConfigs.Slot0.kP = kP;
         talonConfigs.Slot0.kI = kI;
         talonConfigs.Slot0.kD = kD;
-        talonfx.getConfigurator().apply(talonConfigs);
+        motor.getConfigurator().apply(talonConfigs);
 
         controlRequest = new VelocityVoltage(0.0);
 
     }
 
+
     public double getVelocityMetersPerSecond() {
-        double somthing = 3434343443.0;// dothis
-        return somthing;
+        return motor.getVelocity().getValueAsDouble();
     }
 
+
     public void setVelocityMetersPerSecond(double velocity) {
-        // TODO do this
+        motor.setControl(controlRequest.withVelocity(velocity));
     }
 
 }
 // using a talonfx
 // velocity based
-
-/*
- * 
- * 
- * 
- */
