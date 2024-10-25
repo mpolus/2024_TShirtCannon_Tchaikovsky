@@ -12,7 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
-public class steer {
+public class Steer {
     private static final MotorType motortype = MotorType.kBrushless;
     private static final double gearing = -150.0 / 7.0;
     private static final double kS = 1;// placeholder change please!!!!!!!!!!!!
@@ -28,7 +28,7 @@ public class steer {
     private final PIDController pidController;
     private final SimpleMotorFeedforward simpleMotorFeedforward;
 
-    public steer(int motuleNumber) {
+    public Steer(int motuleNumber) {
         canSparkMax = new CANSparkMax(motuleNumber + 10, motortype);
         simpleMotorFeedforward = new SimpleMotorFeedforward(kS, kV);
         pidController = new PIDController(kP, kI, kD);

@@ -8,7 +8,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
 
-public class driveWheel {
+public class DriveWheel {
     private static final double gearRatio = 5.0; // placeholder please replace later
     private static final double weelRadius = Units.inchesToMeters(2.0);
     private static final double dtseconds = 0.02;
@@ -25,7 +25,7 @@ public class driveWheel {
     private final TalonFXConfiguration talonConfigs = new TalonFXConfiguration();
     private final VelocityVoltage controlRequest;
 
-    public driveWheel(int moduleNumber) {
+    public DriveWheel(int moduleNumber) {
         motor = new TalonFX(moduleNumber + 20);
 
 
