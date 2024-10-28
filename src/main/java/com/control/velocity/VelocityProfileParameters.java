@@ -1,15 +1,12 @@
-package com.mechanisms;
+package com.control.velocity;
 
 /**
  * Units are radians for angular motion and meters for linear motion.
  */
-public class TrapezoidProfileParameters {
-
-    /** The maximum velocity of the mechanism in units per second. */
-    public double MaxVelocity;
+public class VelocityProfileParameters {
 
     /** The maximum acceleration of the mechanism in units per second per second. */
-    public double MaxAcceleration = Double.POSITIVE_INFINITY;
+    public double MaxAcceleration;
 
     /** The maximum jerk of the mechanism in units per second per second per second. */
     public double MaxJerk = Double.POSITIVE_INFINITY;

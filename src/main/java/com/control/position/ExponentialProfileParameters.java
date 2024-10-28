@@ -1,4 +1,4 @@
-package com.mechanisms;
+package com.control.position;
 
 public class ExponentialProfileParameters {
 

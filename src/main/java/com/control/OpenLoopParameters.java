@@ -1,6 +1,11 @@
-package com.mechanisms;
+package com.control;
+
+import com.smartmotors.FeedforwardType;
 
 public class OpenLoopParameters {
+
+    /** The feedforward type. This can be SIMPLE, ELEVATOR, or ARM. */
+    public FeedforwardType feedforwardType;
 
     /** The static friction gain. */
     public double kS;

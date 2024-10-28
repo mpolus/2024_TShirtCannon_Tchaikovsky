@@ -1,9 +1,6 @@
-package com.mechanisms;
+package com.control;
 
 public class ClosedLoopParameters {
-
-    /** The slot used by the SmartMotor for this set of parameters */
-    public int SlotNumber;
 
     /** The proportional gain. */
     public double kP;
