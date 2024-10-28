@@ -4,13 +4,12 @@
 
 package frc.robot.subsystems.drive;
 
-import com.ctre.phoenix6.sim.ChassisReference;
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.drive.module.SwerveModule;
 
 public class SwerveDriveSubsystem extends SubsystemBase {
 
@@ -19,43 +18,41 @@ public class SwerveDriveSubsystem extends SubsystemBase {
   private final SwerveModule module1;
   private final SwerveModule module2;
   private final SwerveModule module3;
-
+  // TODO: create a new gyroscope.  The type is AHRS
 
   /** Creates a new SwerveDriveSubsystem. */
   public SwerveDriveSubsystem() {
+    module0 = new SwerveModule(0);
+    module1 = new SwerveModule(1);
+    module2 = new SwerveModule(3);
+    module3 = new SwerveModule(3);
+    // TODO: initialize the gyro with argument SPI.Port.kMXP
+    // TODO: reset the gyro
     Translation2d frontLeftPosition = new Translation2d(3, 4);
     Translation2d frontRightPosition = new Translation2d(-3, 4);
     Translation2d backLeftPosition = new Translation2d(3, -4);
     Translation2d backRightPosition = new Translation2d(-3, -4);
     kinematics = new SwerveDriveKinematics(frontLeftPosition, frontRightPosition, backLeftPosition, backRightPosition);
-
-    module0 = new SwerveModule(0);
-    module1 = new SwerveModule(1);
-    module2 = new SwerveModule(3);
-    module3 = new SwerveModule(3);
-  };
+  }
 
   private void apply(SwerveModuleState[] states){
     module0.apply(states[0]);
     module1.apply(states[1]);
     module2.apply(states[2]);
     module3.apply(states[3]);
-
   }
 
-  private void apply(ChassisSpeeds speeds){
+  private void applyRobotRelative(ChassisSpeeds speeds){
     SwerveModuleState[] states = kinematics.toSwerveModuleStates(speeds);
     apply(states);
   }
 
-
-
-
-
-
+  private void applyFieldRelative(ChassisSpeeds speeds){
+    // TODO: Once we have a gyro we can implement this.
+  }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // TODO: call the update method of each module.
   }
 }
