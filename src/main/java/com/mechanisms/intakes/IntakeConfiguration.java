@@ -25,4 +25,3 @@ public class IntakeConfiguration {
     public VelocityProfileParameters velocityProfileParams = new VelocityProfileParameters();
 
 
-}
