@@ -5,12 +5,6 @@ import com.control.velocity.VelocityProfileType;
 
 public abstract class SmartMotor {
 
-    protected final FeedforwardType feedforwardType;
-
-    protected SmartMotor(FeedforwardType feedforwardType) {
-        this.feedforwardType = feedforwardType;
-    }
-
     public abstract double getPosition();
 
     public abstract double getVelocity();
