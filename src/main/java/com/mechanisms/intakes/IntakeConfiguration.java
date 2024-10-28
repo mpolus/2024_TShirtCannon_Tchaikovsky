@@ -1,6 +1,8 @@
 package com.mechanisms.intakes;
 
 import com.control.ClosedLoopParameters;
+import com.control.OpenLoopParameters;
+import com.control.velocity.VelocityProfileParameters;
 
 public class IntakeConfiguration {
 
@@ -11,15 +13,16 @@ public class IntakeConfiguration {
     public ClosedLoopParameters VelocityClosedLoopCurrentParams = new ClosedLoopParameters();
 
     /** The ClosedLoopParameters for velocity control via voltage. */
-    // TODO: Angel - Initialize a ClosedLoopParameters object.  It should be public and should be named VelocityClosedLoopVoltageParams.
+    public ClosedLoopParameters VelocityClosedLoopVoltageParams  = new ClosedLoopParameters();
 
     /** The OpenLoopParameters for this mechanism via voltage. */
-    // TODO: Angel - Initialize a OpenLoopParameters object.  It should be public and should be named OpenLoopVoltageParams.
+    public OpenLoopParameters OpenLoopVoltageParams = new OpenLoopParameters();
 
     /** The OpenLoopParameters for this mechanism via current. */
-    // TODO: Angel - Initialize a OpenLoopParameters object.  It should be public and should be named OpenLoopCurrentParams.
+    public OpenLoopParameters OpenLoopCurrentParams = new OpenLoopParameters();
 
     /** The velocity profile parameters.*/
-    // TODO: Angel - Initialize a VelocityProfileParameters object.  It should be public and named VelocityProfileParams.
+    public VelocityProfileParameters velocityProfileParams = new VelocityProfileParameters();
+
 
 }
