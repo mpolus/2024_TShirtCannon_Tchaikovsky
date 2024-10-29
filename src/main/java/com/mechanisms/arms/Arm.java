@@ -7,32 +7,40 @@ import com.smartmotors.SmartMotor;
 
 public class Arm {
 
-    // TODO: Keith - Create a private final SmartMotor object called motor.
+
+    private final SmartMotor motor;
 
     public Arm(SmartMotor motor) {
-        // TODO: Keith - initialize this.motor to the constructor parameter.
+        
+        this.motor = motor;
     }
 
     public double getAngleDegrees() {
-        // TODO: Keith - Use Math.toDegrees.  Get the Position from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        
+        Math.toDegrees(this.motor.getPosition());
+        return this.motor.getPosition(); 
     }
 
     public double getAngularVelocityDegreesPerSecond() {
-        // TODO: Keith - Use Math.toDegrees. Get the Velocity from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        
+        Math.toDegrees(this.motor.getVelocity());
+        return this.motor.getVelocity(); 
     }
 
     public void accept(double positionDegrees, PositionProfileType profileType, InputType inputType) {
-        // TODO: Keith - Use Math.toRadians.  Convert positionDegrees to positionRadians, call motor's accept method passing in position in radians.
+    
+        double positionRadians = Math.toRadians(positionDegrees);
+        motor.accept(positionRadians, profileType, inputType);
     }
 
     public void accept(double velocityDegreesPerSecond, VelocityProfileType profileType, InputType inputType) {
-        // TODO: Keith - Use Math.toRadians.  Convert velocityDegreesPerSecond to velocityRadiansPerSecond, call motor's accept method passing in velocity in radpersec.
+        
+        double velocityRadiansPerSecond = Math.toRadians(velocityDegreesPerSecond);
+        motor.accept(velocityRadiansPerSecond, profileType, inputType);
     }
 
     public void accept(double rawInput, InputType inputType) {
-        // TODO: Keith - Call motor's accept method passing these parameters in.
+        motor.accept(rawInput, inputType);
     }
 
 
