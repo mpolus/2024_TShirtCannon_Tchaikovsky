@@ -7,32 +7,30 @@ import com.smartmotors.SmartMotor;
 
 public class Elevator {
 
-    // TODO: Allen - Create a private final SmartMotor object called motor.
+    private final SmartMotor motor;
 
     public Elevator(SmartMotor motor) {
-        // TODO: Allen - initialize this.motor to the constructor parameter.
+        this.motor = motor;
     }
 
     public double getPositionMeters() {
-        // TODO: Allen - Get the Position from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        return motor.getPosition();
     }
 
     public double getVelocityMetersPerSecond() {
-        // TODO: Allen - Get the Velocity from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        return motor.getVelocity();
     }
 
     public void accept(double positionMeters, PositionProfileType profileType, InputType inputType) {
-        // TODO: Allen - Call motor's accept method passing in positionMeters.
+        motor.accept(positionMeters, inputType);
     }
 
     public void accept(double velocityMetersPerSecond, VelocityProfileType profileType, InputType inputType) {
-        // TODO: Allen - Call motor's accept method passing in velocityMetersPerSecond.
+        motor.accept(velocityMetersPerSecond, inputType);
     }
 
     public void accept(double rawInput, InputType inputType) {
-        // TODO: Allen - Call motor's accept method passing these parameters in.
+        motor.accept(rawInput, inputType);
     }
 
 }
