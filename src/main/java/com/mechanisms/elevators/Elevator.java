@@ -8,9 +8,13 @@ import com.smartmotors.SmartMotor;
 public class Elevator {
 
     private final SmartMotor motor;
+    public final double minPositionMeters;
+    public final double maxPositionMeters;
 
-    public Elevator(SmartMotor motor) {
+    public Elevator(SmartMotor motor, ElevatorConfiguration config) {
         this.motor = motor;
+        // TODO: ALLEN - set minPositionMeters to the one in the config
+        // TODO: ALLEN - same for maxPositionMeters
     }
 
     public double getPositionMeters() {
@@ -22,6 +26,8 @@ public class Elevator {
     }
 
     public void accept(double positionMeters, PositionProfileType profileType, InputType inputType) {
+        // TODO: ALLEN - wrap the motor.accept method below in an if statement checking if positionMeters is between min and Max position.
+        // TODO: ALLEN - please note we should do the same for accept velocity but since we want to hold we'll do that in the subsystem later on.
         motor.accept(positionMeters, inputType);
     }
 
