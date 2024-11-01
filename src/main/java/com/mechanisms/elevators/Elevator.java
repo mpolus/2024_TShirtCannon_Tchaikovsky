@@ -7,32 +7,36 @@ import com.smartmotors.SmartMotor;
 
 public class Elevator {
 
-    // TODO: Allen - Create a private final SmartMotor object called motor.
+    private final SmartMotor motor;
+    public final double minPositionMeters;
+    public final double maxPositionMeters;
 
-    public Elevator(SmartMotor motor) {
-        // TODO: Allen - initialize this.motor to the constructor parameter.
+    public Elevator(SmartMotor motor, ElevatorConfiguration config) {
+        this.motor = motor;
+        // TODO: ALLEN - set minPositionMeters to the one in the config
+        // TODO: ALLEN - same for maxPositionMeters
     }
 
     public double getPositionMeters() {
-        // TODO: Allen - Get the Position from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        return motor.getPosition();
     }
 
     public double getVelocityMetersPerSecond() {
-        // TODO: Allen - Get the Velocity from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        return motor.getVelocity();
     }
 
     public void accept(double positionMeters, PositionProfileType profileType, InputType inputType) {
-        // TODO: Allen - Call motor's accept method passing in positionMeters.
+        // TODO: ALLEN - wrap the motor.accept method below in an if statement checking if positionMeters is between min and Max position.
+        // TODO: ALLEN - please note we should do the same for accept velocity but since we want to hold we'll do that in the subsystem later on.
+        motor.accept(positionMeters, inputType);
     }
 
     public void accept(double velocityMetersPerSecond, VelocityProfileType profileType, InputType inputType) {
-        // TODO: Allen - Call motor's accept method passing in velocityMetersPerSecond.
+        motor.accept(velocityMetersPerSecond, inputType);
     }
 
     public void accept(double rawInput, InputType inputType) {
-        // TODO: Allen - Call motor's accept method passing these parameters in.
+        motor.accept(rawInput, inputType);
     }
 
 }

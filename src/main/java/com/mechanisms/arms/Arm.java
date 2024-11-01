@@ -7,33 +7,37 @@ import com.smartmotors.SmartMotor;
 
 public class Arm {
 
-    // TODO: Keith - Create a private final SmartMotor object called motor.
+    private final SmartMotor motor;
+    public final double minAngleRadians;
+    public final double maxAngleRadians;
 
-    public Arm(SmartMotor motor) {
-        // TODO: Keith - initialize this.motor to the constructor parameter.
+    public Arm(SmartMotor motor, ArmConfiguration config) {
+        this.motor = motor;
+        // TODO: Keith - set minAngleRadians to the one in the config
+        // TODO: Keith - Same for maxAngleRadians
     }
 
     public double getAngleDegrees() {
-        // TODO: Keith - Use Math.toDegrees.  Get the Position from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        return Math.toDegrees(this.motor.getPosition());
     }
 
     public double getAngularVelocityDegreesPerSecond() {
-        // TODO: Keith - Use Math.toDegrees. Get the Velocity from the SmartMotor object and return.
-        return 0.0; // TODO: Remove or replace this.  Actually return what was asked.
+        return Math.toDegrees(this.motor.getVelocity());
     }
 
     public void accept(double positionDegrees, PositionProfileType profileType, InputType inputType) {
-        // TODO: Keith - Use Math.toRadians.  Convert positionDegrees to positionRadians, call motor's accept method passing in position in radians.
+        double positionRadians = Math.toRadians(positionDegrees);
+        // TODO: KEITH - wrap the motor.accept method below in an if statement checking if positionRadians is between min and Max Angle.
+        // TODO: KEITH - please note we should do the same for accept velocity but since we want to hold we'll do that in the subsystem later on.
+        motor.accept(positionRadians, profileType, inputType);
     }
 
     public void accept(double velocityDegreesPerSecond, VelocityProfileType profileType, InputType inputType) {
-        // TODO: Keith - Use Math.toRadians.  Convert velocityDegreesPerSecond to velocityRadiansPerSecond, call motor's accept method passing in velocity in radpersec.
+        double velocityRadiansPerSecond = Math.toRadians(velocityDegreesPerSecond);
+        motor.accept(velocityRadiansPerSecond, profileType, inputType);
     }
 
     public void accept(double rawInput, InputType inputType) {
-        // TODO: Keith - Call motor's accept method passing these parameters in.
+        motor.accept(rawInput, inputType);
     }
-
-
 }
