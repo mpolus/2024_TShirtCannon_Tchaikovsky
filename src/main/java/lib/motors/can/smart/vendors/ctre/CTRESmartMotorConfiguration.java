@@ -1,71 +1,64 @@
 package lib.motors.can.smart.vendors.ctre;
 
+import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.fasterxml.jackson.databind.ser.std.SqlTimeSerializer;
 
 public abstract class CTRESmartMotorConfiguration {
 
-    // TODO: Jacob: 06: create an int named deviceNumber, make it private, and make it final
-    // TODO: Jacob: 07: create a String named canbus, make it private, make it final
-    // TODO: Jacob: 08: create a TalonFXConfiguration named talonFXConfiguration, intialize it to a new TalonFXConfiguration()
-    // make if protected and final
-    // TODO: Jacob: 09: create a MotorOutConfigs named motorOutputConfigs, intialize it to a new MotorOutputConfigs().
-    // make it private and final
-    // TODO: Jacob: 10: create a FeedbackConfigs named feedbackConfigs, intialize it to a new FeedbackConfigs().
-    // make it protected and final.
+    private final int deviceNumber;
+    private final String canbus;
+    protected final TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
+    private final MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
+    protected final FeedbackConfigs feedbackConfigs = new FeedbackConfigs();
 
 
     public CTRESmartMotorConfiguration(int deviceNumber) {
-        // TODO: Jacob: 11: set this deviceNumber to the deviceNumber argument
-        // TODO: Jacob: 12: set this canbus to "rio"
+        this.deviceNumber = deviceNumber;
+        this.canbus = "rio";
     }
 
     public CTRESmartMotorConfiguration(int deviceNumber, String canbus) {
-        // TODO: Jacob: 13: set this deviceNumber to the deviceNumber argument
-        // TODO: Jacob: 14: set this canbus to the canbus argument
+        this.deviceNumber = deviceNumber;
+        this.canbus = canbus;
     }
 
     public int getDeviceNumber() {
-        // TODO: Jacob: 15: simply return deviceNumber
-        return 0; // TODO: remove this placeholder.
+        return deviceNumber;
     }
 
     public String getCanbus() {
-        // TODO: Jacob: 16: simply return canbus;
-        return null; // TODO: remove this placeholder.
+        return canbus;
     }
 
     public final TalonFXConfiguration getTalonFXConfiguration() {
-        // TODO: Jacob: 17: simply return talonFXConfiguration;
-        return null; // TODO: remove this placeholder.
+        return talonFXConfiguration;
     }
 
     public final CTRESmartMotorConfiguration withNeutralModeValue(NeutralModeValue neutralModeValue) {
-        // TODO: Jacob: 18: call motorOutputConfig's withNeutralMode method and pass in neutralModeValue.
-        // TODO: Jacob: 19: call talonFXConfiguration's withMotorOutput method and pass in motorOutputConfigs
-        // TODO: Jacob: 20: return this
-        return null; // TODO: remove this placeholder.
+        motorOutputConfigs.withNeutralMode(neutralModeValue);
+        talonFXConfiguration.withMotorOutput(motorOutputConfigs);
+        return this;
     }
 
     public final CTRESmartMotorConfiguration withInvertedValue(InvertedValue invertedValue) {
-        // TODO: Jacob: 21: call motorOutputConfig's withInvertedValue method and pass in invertedValue.
-        // TODO: Jacob: 22: call talonFXConfiguration's withMotorOutput method and pass in motorOutputConfigs
-        // TODO: Jacob: 23: return this
-        return null; // TODO: remove this placeholder.
+        motorOutputConfigs.withInverted(invertedValue);
+        talonFXConfiguration.withMotorOutput(motorOutputConfigs);
+        return this;
     }
 
     public final CTRESmartMotorConfiguration withRotorToSensorRatio(double rotorToSensorRatio) {
-        // TODO: Jacob: 24: call feedbackConfigs's withRotorToSensorRatio  method and pass in rotorToSensorRatio.
-        // TODO: Jacob: 25: call talonFXConfiguration's withFeedback method and pass in feedbackConfigs
-        // TODO: Jacob: 26: return this
-        return null; // TODO: remove this placeholder.
+        feedbackConfigs.withRotorToSensorRatio(rotorToSensorRatio);
+        talonFXConfiguration.withFeedback(feedbackConfigs);
+        return this;
     }
 
     public final CTRESmartMotorConfiguration withSensorToMechanismRatio(double sensorToMechanismRatio) {
-        // TODO: Jacob: 27: call feedbackConfigs's withSensorToMechanismRatio method and pass in sensorToMechanismRatio.
-        // TODO: Jacob: 28: call talonFXConfiguration's withFeedback method and pass in feedbackConfigs
-        // TODO: Jacob: 29: return this
-        return null; // TODO: remove this placeholder.
+        feedbackConfigs.withSensorToMechanismRatio(sensorToMechanismRatio);
+        talonFXConfiguration.withFeedback(feedbackConfigs);
+        return this;
     }
 }
