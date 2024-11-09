@@ -2,25 +2,25 @@ package lib.motors.can.smart.vendors.ctre.position;
 
 import lib.motors.can.smart.usages.position.AngularPositionSmartMotor;
 import lib.absoluteEncoders.AbsoluteEncoder;
+import lib.absoluteEncoders.can.vendors.ctre.CTREAbsoluteEncoder;
 
 public class CTREAngularPositionSmartMotor extends CTREPositionSmartMotor implements AngularPositionSmartMotor {
 
-    // TODO: Allen: 49: create a CTREAbsoluteEncoder object named ctreAbsoluteEncoder
+    CTREAbsoluteEncoder ctreAbsoluteEncoder;
 
     public CTREAngularPositionSmartMotor(CTREAngularPositionSmartMotorConfiguration config) {
-        // TODO: Allen: 50: call super(config)
-        super(null); // TODO: remove this placeholder.
-        // TODO: Allen: 51: set this ctreAbsoluteEncoder to new CTREAbsoluteEncoder(config.getEncoderConfiguration())
+        super(config);
+        this.ctreAbsoluteEncoder = new.CTREAbsoluteEncoder(config.getEncoderConfiguration());
     }
 
     @Override
     public AbsoluteEncoder getAbsoluteEncoder() {
-        // TODO: Allen: 52: return ctreAbsoluteEncoder
-        return null; // TODO: remove this placeholder.
+        return ctreAbsoluteEncoder;
     }
 
     @Override
     public void setMotorEncoderFromAbsolute() {
-        // TODO: Allen: 53: call motor.setPosition(ctreAbsoluteEncoder.getAbsoluteAngleDegrees())
+        motor.setPosition(ctreAbsoluteEncoder.getAbsoluteAngleDegrees())
+
     }
 }
