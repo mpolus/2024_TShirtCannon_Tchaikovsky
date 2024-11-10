@@ -112,14 +112,14 @@ public class CTREIntakeMotor extends TalonFX implements IntakeMotor {
 
     @Override
     public void accept(CurrentAngularVelocityRequest request) {
-        motionMagicVelocityTorqueCurrentFOC.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
-        setControl(motionMagicVelocityTorqueCurrentFOC);
+        velocityTorqueCurrentFOC.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
+        setControl(velocityTorqueCurrentFOC);
     }
 
     @Override
     public void accept(CurrentTrapezoidAngularVelocityRequest request) {
-        velocityTorqueCurrentFOC.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
-        setControl(velocityTorqueCurrentFOC);
+        motionMagicVelocityTorqueCurrentFOC.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
+        setControl(motionMagicVelocityTorqueCurrentFOC);
     }
 
 
