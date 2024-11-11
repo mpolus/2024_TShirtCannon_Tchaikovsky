@@ -6,12 +6,10 @@ import com.smartmotors.InputType;
 import com.smartmotors.SmartMotor;
 
 public class Shooter {
-    private final SmartMotor motor;
 
     // TODO: Malaika - Create a private final SmartMotor object called motor.
 
     public Shooter(SmartMotor motor) {
-        this.motor = motor;
         // TODO: Malaika - initialize this.motor to the constructor parameter.
     }
 
