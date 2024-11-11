@@ -4,13 +4,10 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.util.Units;
+import lib.motormechanisms.controlrequests.AngularVelocityRequest;
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.angular.velocity.current.CurrentAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.trapezoidal.CurrentTrapezoidAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.trapezoidal.VoltageTrapezoidAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.voltage.VoltageAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public class CTREIntakeMotor extends TalonFX implements IntakeMotor {
     private final VoltageOut voltageOut = new VoltageOut(0.0).withEnableFOC(false);
@@ -98,26 +95,26 @@ public class CTREIntakeMotor extends TalonFX implements IntakeMotor {
     }
 
     @Override
-    public void accept(VoltageAngularVelocityRequest request) {
+    public void acceptVelocityVoltage(AngularVelocityRequest request) {
         velocityVoltage.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
         setControl(velocityVoltage);
     }
 
 
     @Override
-    public void accept(VoltageTrapezoidAngularVelocityRequest request) {
+    public void acceptTrapVelocityVoltage(AngularVelocityRequest request) {
         motionMagicVelocityVoltage.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
         setControl(motionMagicVelocityVoltage);
     }
 
     @Override
-    public void accept(CurrentAngularVelocityRequest request) {
+    public void acceptVelocityCurrent(AngularVelocityRequest request) {
         velocityTorqueCurrentFOC.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
         setControl(velocityTorqueCurrentFOC);
     }
 
     @Override
-    public void accept(CurrentTrapezoidAngularVelocityRequest request) {
+    public void acceptTrapVelocityCurrent(AngularVelocityRequest request) {
         motionMagicVelocityTorqueCurrentFOC.withVelocity(Units.degreesToRadians(request.getAngularVelocityDegreesPerSecond()));
         setControl(motionMagicVelocityTorqueCurrentFOC);
     }

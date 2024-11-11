@@ -3,13 +3,10 @@ package lib.motortypes.swervewheels;
 import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.TalonFX;
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.LinearVelocityRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.linear.velocity.current.CurrentLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.CurrentTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.VoltageTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.voltage.VoltageLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public class CTRESwerveWheelMotor extends TalonFX implements SwerveWheelMotor {
     private final VoltageOut voltageOut = new VoltageOut(0.0).withEnableFOC(false);
@@ -102,26 +99,26 @@ public class CTRESwerveWheelMotor extends TalonFX implements SwerveWheelMotor {
     }
 
     @Override
-    public void accept(VoltageLinearVelocityRequest request) {
+    public void acceptVelocityVoltage(LinearVelocityRequest request) {
         velocityVoltage.withVelocity(request.getVelocityMetersPerSecond());
         setControl(velocityVoltage);
     }
 
 
     @Override
-    public void accept(VoltageTrapezoidLinearVelocityRequest request) {
+    public void acceptTrapVelocityVoltage(LinearVelocityRequest request) {
         motionMagicVelocityVoltage.withVelocity(request.getVelocityMetersPerSecond());
         setControl(motionMagicVelocityVoltage);
     }
 
     @Override
-    public void accept(CurrentLinearVelocityRequest request) {
+    public void acceptVelocityCurrent(LinearVelocityRequest request) {
         motionMagicVelocityTorqueCurrentFOC.withVelocity(request.getVelocityMetersPerSecond());
         setControl(motionMagicVelocityTorqueCurrentFOC);
     }
 
     @Override
-    public void accept(CurrentTrapezoidLinearVelocityRequest request) {
+    public void acceptTrapVelocityCurrent(LinearVelocityRequest request) {
         velocityTorqueCurrentFOC.withVelocity(request.getVelocityMetersPerSecond());
         setControl(velocityTorqueCurrentFOC);
     }

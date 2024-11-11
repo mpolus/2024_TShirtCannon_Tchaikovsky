@@ -1,4 +1,4 @@
-package lib.motormechanisms.controlrequests.angular.velocity;
+package lib.motormechanisms.controlrequests;
 
 public abstract class AngularVelocityRequest {
 

@@ -1,6 +1,6 @@
-package lib.motormechanisms.controlrequests.linear.velocity;
+package lib.motormechanisms.controlrequests;
 
-public abstract class LinearVelocityRequest {
+public class LinearVelocityRequest {
 
     private double velocityMetersPerSecond;
 

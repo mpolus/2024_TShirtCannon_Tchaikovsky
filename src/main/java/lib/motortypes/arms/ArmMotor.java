@@ -1,18 +1,10 @@
 package lib.motortypes.arms;
 
+import lib.motormechanisms.controlrequests.AngularPositionRequest;
+import lib.motormechanisms.controlrequests.AngularVelocityRequest;
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.angular.position.current.CurrentAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.exponential.CurrentExponentialAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.trapezoidal.CurrentTrapezoidAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.voltage.VoltageAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.exponential.VoltageExponentialAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.trapezoidal.VoltageTrapezoidAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.current.CurrentAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.trapezoidal.CurrentTrapezoidAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.trapezoidal.VoltageTrapezoidAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.voltage.VoltageAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public interface ArmMotor {
 
@@ -36,23 +28,23 @@ public interface ArmMotor {
 
     public void accept(CurrentRequest request);
 
-    public void accept(VoltageAngularPositionRequest request);
+    public void acceptPositionVoltage(AngularPositionRequest request);
 
-    public void accept(VoltageTrapezoidAngularPositionRequest request);
+    public void acceptTrapPositionVoltage(AngularPositionRequest request);
 
-    public void accept(VoltageExponentialAngularPositionRequest request);
+    public void acceptExpoPositionVoltage(AngularPositionRequest request);
 
-    public void accept(VoltageAngularVelocityRequest request);
+    public void acceptVelocityVoltage(AngularVelocityRequest request);
 
-    public void accept(VoltageTrapezoidAngularVelocityRequest request);
+    public void acceptTrapVelocityVoltage(AngularVelocityRequest request);
 
-    public void accept(CurrentAngularPositionRequest request);
+    public void acceptPositionCurrent(AngularPositionRequest request);
 
-    public void accept(CurrentTrapezoidAngularPositionRequest request);
+    public void acceptTrapPositionCurrent(AngularPositionRequest request);
 
-    public void accept(CurrentExponentialAngularPositionRequest request);
+    public void acceptExpoPositionCurrent(AngularPositionRequest request);
 
-    public void accept(CurrentAngularVelocityRequest request);
+    public void acceptVelocityCurrent(AngularVelocityRequest request);
 
-    public void accept(CurrentTrapezoidAngularVelocityRequest request);
+    public void acceptTrapVelocityCurrent(AngularVelocityRequest request);
 }

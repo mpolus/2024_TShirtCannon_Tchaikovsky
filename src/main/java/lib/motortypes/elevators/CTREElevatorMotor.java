@@ -4,19 +4,11 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.LinearPositionRequest;
+import lib.motormechanisms.controlrequests.LinearVelocityRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.linear.position.current.CurrentLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.exponential.CurrentExponentialLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.exponential.VoltageExponentialLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.trapezoidal.CurrentTrapezoidLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.trapezoidal.VoltageTrapezoidLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.voltage.VoltageLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.current.CurrentLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.CurrentTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.VoltageTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.voltage.VoltageLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public class CTREElevatorMotor extends TalonFX implements ElevatorMotor {
     private final VoltageOut voltageOut = new VoltageOut(0.0).withEnableFOC(false);
@@ -160,19 +152,19 @@ public class CTREElevatorMotor extends TalonFX implements ElevatorMotor {
     }
 
     @Override
-    public void accept(VoltageLinearPositionRequest request) {
+    public void acceptPositionVoltage(LinearPositionRequest request) {
         positionVoltage.withPosition(request.getPositionMeters());
         setControl(positionVoltage);
     }
 
     @Override
-    public void accept(VoltageTrapezoidLinearPositionRequest request) {
+    public void acceptTrapPositionVoltage(LinearPositionRequest request) {
         motionMagicVoltage.withPosition(request.getPositionMeters());
         setControl(motionMagicVoltage);
     }
 
     @Override
-    public void accept(VoltageExponentialLinearPositionRequest request) {
+    public void acceptExpoPositionVoltage(LinearPositionRequest request) {
         if (!motionMagicConfigsUsing.equals(voltageMotionMagicConfigs)) {
             getConfigurator().apply(voltageMotionMagicConfigs);
             motionMagicConfigsUsing = voltageMotionMagicConfigs;
@@ -182,14 +174,14 @@ public class CTREElevatorMotor extends TalonFX implements ElevatorMotor {
     }
 
     @Override
-    public void accept(VoltageLinearVelocityRequest request) {
+    public void acceptVelocityVoltage(LinearVelocityRequest request) {
         velocityVoltage.withVelocity(request.getVelocityMetersPerSecond());
         setControl(velocityVoltage);
     }
 
 
     @Override
-    public void accept(VoltageTrapezoidLinearVelocityRequest request) {
+    public void acceptTrapVelocityVoltage(LinearVelocityRequest request) {
         if (!slot2ConfigsUsing.equals(voltageSlot2Configs)) {
             getConfigurator().apply(voltageSlot2Configs);
             slot2ConfigsUsing = voltageSlot2Configs;
@@ -199,20 +191,20 @@ public class CTREElevatorMotor extends TalonFX implements ElevatorMotor {
     }
 
     @Override
-    public void accept(CurrentLinearPositionRequest request) {
+    public void acceptPositionCurrent(LinearPositionRequest request) {
         positionTorqueCurrentFOC.withPosition(request.getPositionMeters());
         setControl(positionTorqueCurrentFOC);
     }
 
     @Override
-    public void accept(CurrentTrapezoidLinearPositionRequest request) {
+    public void acceptTrapPositionCurrent(LinearPositionRequest request) {
         motionMagicTorqueCurrentFOC.withPosition(request.getPositionMeters());
         setControl(motionMagicTorqueCurrentFOC);
     }
 
 
     @Override
-    public void accept(CurrentExponentialLinearPositionRequest request) {
+    public void acceptExpoPositionCurrent(LinearPositionRequest request) {
         if (!motionMagicConfigsUsing.equals(currentMotionMagicConfigs)) {
             getConfigurator().apply(currentMotionMagicConfigs);
             motionMagicConfigsUsing = currentMotionMagicConfigs;
@@ -222,13 +214,13 @@ public class CTREElevatorMotor extends TalonFX implements ElevatorMotor {
     }
 
     @Override
-    public void accept(CurrentLinearVelocityRequest request) {
+    public void acceptVelocityCurrent(LinearVelocityRequest request) {
         velocityTorqueCurrentFOC.withVelocity(request.getVelocityMetersPerSecond());
         setControl(velocityTorqueCurrentFOC);
     }
 
     @Override
-    public void accept(CurrentTrapezoidLinearVelocityRequest request) {
+    public void acceptTrapVelocityCurrent(LinearVelocityRequest request) {
         if (!slot2ConfigsUsing.equals(currentSlot2Configs)) {
             getConfigurator().apply(currentSlot2Configs);
             slot2ConfigsUsing = currentSlot2Configs;

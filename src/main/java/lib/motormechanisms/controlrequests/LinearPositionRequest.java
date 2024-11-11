@@ -1,6 +1,6 @@
-package lib.motormechanisms.controlrequests.linear.position;
+package lib.motormechanisms.controlrequests;
 
-public abstract class LinearPositionRequest {
+public class LinearPositionRequest {
 
     private double positionMeters;
 

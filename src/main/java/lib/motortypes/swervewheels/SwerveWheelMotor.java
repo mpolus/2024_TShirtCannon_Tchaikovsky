@@ -1,12 +1,9 @@
 package lib.motortypes.swervewheels;
 
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.LinearVelocityRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.linear.velocity.current.CurrentLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.CurrentTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.VoltageTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.voltage.VoltageLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public interface SwerveWheelMotor {
 
@@ -28,11 +25,11 @@ public interface SwerveWheelMotor {
 
     public void accept(CurrentRequest request);
 
-    public void accept(VoltageLinearVelocityRequest request);
+    public void acceptVelocityVoltage(LinearVelocityRequest request);
 
-    public void accept(VoltageTrapezoidLinearVelocityRequest request);
+    public void acceptTrapVelocityVoltage(LinearVelocityRequest request);
 
-    public void accept(CurrentLinearVelocityRequest request);
+    public void acceptVelocityCurrent(LinearVelocityRequest request);
 
-    public void accept(CurrentTrapezoidLinearVelocityRequest request);
+    public void acceptTrapVelocityCurrent(LinearVelocityRequest request);
 }

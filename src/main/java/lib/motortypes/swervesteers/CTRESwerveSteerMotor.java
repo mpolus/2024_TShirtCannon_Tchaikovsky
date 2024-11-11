@@ -4,15 +4,10 @@ import com.ctre.phoenix6.configs.*;
 import com.ctre.phoenix6.controls.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.util.Units;
+import lib.motormechanisms.controlrequests.AngularPositionRequest;
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.angular.position.current.CurrentAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.exponential.CurrentExponentialAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.exponential.VoltageExponentialAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.trapezoidal.CurrentTrapezoidAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.trapezoidal.VoltageTrapezoidAngularPositionRequest;
-import lib.motormechanisms.controlrequests.angular.position.voltage.VoltageAngularPositionRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public class CTRESwerveSteerMotor extends TalonFX implements SwerveSteerMotor {
     private final VoltageOut voltageOut = new VoltageOut(0.0).withEnableFOC(false);
@@ -128,19 +123,19 @@ public class CTRESwerveSteerMotor extends TalonFX implements SwerveSteerMotor {
     }
 
     @Override
-    public void accept(VoltageAngularPositionRequest request) {
+    public void acceptPositionVoltage(AngularPositionRequest request) {
         positionVoltage.withPosition(Units.degreesToRadians(request.getAngleDegrees()));
         setControl(positionVoltage);
     }
 
     @Override
-    public void accept(VoltageTrapezoidAngularPositionRequest request) {
+    public void acceptTrapPositionVoltage(AngularPositionRequest request) {
         motionMagicVoltage.withPosition(Units.degreesToRadians(request.getAngleDegrees()));
         setControl(motionMagicVoltage);
     }
 
     @Override
-    public void accept(VoltageExponentialAngularPositionRequest request) {
+    public void acceptExpoPositionVoltage(AngularPositionRequest request) {
         if (!motionMagicConfigsUsing.equals(voltageMotionMagicConfigs)) {
             getConfigurator().apply(voltageMotionMagicConfigs);
             motionMagicConfigsUsing = voltageMotionMagicConfigs;
@@ -150,19 +145,19 @@ public class CTRESwerveSteerMotor extends TalonFX implements SwerveSteerMotor {
     }
 
     @Override
-    public void accept(CurrentAngularPositionRequest request) {
+    public void acceptPositionCurrent(AngularPositionRequest request) {
         positionTorqueCurrentFOC.withPosition(Units.degreesToRadians(request.getAngleDegrees()));
         setControl(positionTorqueCurrentFOC);
     }
 
     @Override
-    public void accept(CurrentTrapezoidAngularPositionRequest request) {
+    public void acceptTrapPositionCurrent(AngularPositionRequest request) {
         motionMagicTorqueCurrentFOC.withPosition(Units.degreesToRadians(request.getAngleDegrees()));
         setControl(motionMagicTorqueCurrentFOC);
     }
 
     @Override
-    public void accept(CurrentExponentialAngularPositionRequest request) {
+    public void acceptExpoPositionCurrent(AngularPositionRequest request) {
         if (!motionMagicConfigsUsing.equals(currentMotionMagicConfigs)) {
             getConfigurator().apply(currentMotionMagicConfigs);
             motionMagicConfigsUsing = currentMotionMagicConfigs;

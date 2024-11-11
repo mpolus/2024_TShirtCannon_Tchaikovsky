@@ -1,4 +1,4 @@
-package lib.motormechanisms.controlrequests.motor;
+package lib.motormechanisms.controlrequests;
 
 public class VoltageRequest {
 

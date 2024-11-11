@@ -1,12 +1,9 @@
 package lib.motortypes.intakes;
 
+import lib.motormechanisms.controlrequests.AngularVelocityRequest;
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.angular.velocity.current.CurrentAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.trapezoidal.CurrentTrapezoidAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.trapezoidal.VoltageTrapezoidAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.angular.velocity.voltage.VoltageAngularVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public interface IntakeMotor {
 
@@ -26,11 +23,11 @@ public interface IntakeMotor {
 
     public void accept(CurrentRequest request);
 
-    public void accept(VoltageAngularVelocityRequest request);
+    public void acceptVelocityVoltage(AngularVelocityRequest request);
 
-    public void accept(VoltageTrapezoidAngularVelocityRequest request);
+    public void acceptTrapVelocityVoltage(AngularVelocityRequest request);
 
-    public void accept(CurrentAngularVelocityRequest request);
+    public void acceptVelocityCurrent(AngularVelocityRequest request);
 
-    public void accept(CurrentTrapezoidAngularVelocityRequest request);
+    public void acceptTrapVelocityCurrent(AngularVelocityRequest request);
 }

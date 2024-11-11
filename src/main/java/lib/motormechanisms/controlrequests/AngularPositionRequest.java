@@ -1,4 +1,4 @@
-package lib.motormechanisms.controlrequests.angular.position;
+package lib.motormechanisms.controlrequests;
 
 public abstract class AngularPositionRequest {
 

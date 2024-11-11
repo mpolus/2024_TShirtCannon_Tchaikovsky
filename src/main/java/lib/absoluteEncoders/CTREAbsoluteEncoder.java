@@ -6,7 +6,7 @@ public class CTREAbsoluteEncoder extends CANcoder implements AbsoluteEncoder {
 
     public CTREAbsoluteEncoder(CTREAbsoluteEncoderConfiguration config) {
         super(config.deviceNumber(), config.canbus());
-        // TODO: Braden: don't forget to import when needed.
+        // TODO: Braden: 01: Start Here: don't forget to import when needed.
         // TODO: create a MagnetSensorConfigs object named magnetSensorConfigs and initialize to its no argument constructor.
         // TODO: call magnetSensorConfigs withAbsoluteSensorRange method and pass in the value from config at line 11.
         // What this is doing is taking the magnetSensorConfigs modifying it with the value you put in and returning it to you.

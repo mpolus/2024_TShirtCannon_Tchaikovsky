@@ -1,18 +1,10 @@
 package lib.motortypes.elevators;
 
+import lib.motormechanisms.controlrequests.CurrentRequest;
+import lib.motormechanisms.controlrequests.LinearPositionRequest;
+import lib.motormechanisms.controlrequests.LinearVelocityRequest;
+import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
-import lib.motormechanisms.controlrequests.linear.position.current.CurrentLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.exponential.CurrentExponentialLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.exponential.VoltageExponentialLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.trapezoidal.CurrentTrapezoidLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.trapezoidal.VoltageTrapezoidLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.position.voltage.VoltageLinearPositionRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.current.CurrentLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.CurrentTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.trapezoidal.VoltageTrapezoidLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.linear.velocity.voltage.VoltageLinearVelocityRequest;
-import lib.motormechanisms.controlrequests.motor.CurrentRequest;
-import lib.motormechanisms.controlrequests.motor.VoltageRequest;
 
 public interface ElevatorMotor {
 
@@ -36,23 +28,23 @@ public interface ElevatorMotor {
 
     public void accept(CurrentRequest request);
 
-    public void accept(VoltageLinearPositionRequest request);
+    public void acceptPositionVoltage(LinearPositionRequest request);
 
-    public void accept(VoltageTrapezoidLinearPositionRequest request);
+    public void acceptTrapPositionVoltage(LinearPositionRequest request);
 
-    public void accept(VoltageExponentialLinearPositionRequest request);
+    public void acceptExpoPositionVoltage(LinearPositionRequest request);
 
-    public void accept(VoltageLinearVelocityRequest request);
+    public void acceptVelocityVoltage(LinearVelocityRequest request);
 
-    public void accept(VoltageTrapezoidLinearVelocityRequest request);
+    public void acceptTrapVelocityVoltage(LinearVelocityRequest request);
 
-    public void accept(CurrentLinearPositionRequest request);
+    public void acceptPositionCurrent(LinearPositionRequest request);
 
-    public void accept(CurrentTrapezoidLinearPositionRequest request);
+    public void acceptTrapPositionCurrent(LinearPositionRequest request);
 
-    public void accept(CurrentExponentialLinearPositionRequest request);
+    public void acceptExpoPositionCurrent(LinearPositionRequest request);
 
-    public void accept(CurrentLinearVelocityRequest request);
+    public void acceptVelocityCurrent(LinearVelocityRequest request);
 
-    public void accept(CurrentTrapezoidLinearVelocityRequest request);
+    public void acceptTrapVelocityCurrent(LinearVelocityRequest request);
 }
