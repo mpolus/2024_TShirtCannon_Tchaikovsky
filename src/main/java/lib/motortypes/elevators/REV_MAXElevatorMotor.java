@@ -2,6 +2,7 @@ package lib.motortypes.elevators;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -12,6 +13,7 @@ import lib.motormechanisms.controlrequests.LinearPositionRequest;
 import lib.motormechanisms.controlrequests.LinearVelocityRequest;
 import lib.motormechanisms.controlrequests.VoltageRequest;
 import lib.motortypes.MotorControllerType;
+import pabeles.concurrency.ConcurrencyOps.Reset;
 
 public class REV_MAXElevatorMotor extends CANSparkMax implements ElevatorMotor {
     private final ElevatorFeedforward feedforward;
@@ -20,7 +22,7 @@ public class REV_MAXElevatorMotor extends CANSparkMax implements ElevatorMotor {
     private final SlewRateLimiter slewRateLimiter;
     private final TrapezoidProfile.State trapGoalState = new TrapezoidProfile.State();
     private final ExponentialProfile.State expoGoalState = new ExponentialProfile.State();
-    private final TrapezoidProfile.State lastTrapState = new TrapezoidProfile.State();
+    private TrapezoidProfile.State lastTrapState = new TrapezoidProfile.State();
     private final TrapezoidProfile.State lastExpoState = new TrapezoidProfile.State();
 
     public REV_MAXElevatorMotor(REV_MAXElevatorMotorConfig config) {
@@ -38,8 +40,8 @@ public class REV_MAXElevatorMotor extends CANSparkMax implements ElevatorMotor {
         getPIDController().setP(config.voltageVelocityKi(), 1);
         getPIDController().setP(config.voltageVelocityKd(), 1);
         feedforward = new ElevatorFeedforward(config.voltageKs(), config.voltageKg(), config.voltageKa());
-        trapezoidProfile = new TrapezoidProfile(TrapezoidProfile.Constraints(config.maxVelocityMetersPerSec(), config.maxAccelerationMetersPerSecSquared());  
-        exponentialProfile = new ExponentialProfile(ExponentialProfile.Constraints.fromCharacteristics(12.0, voltageKv, voltageKa);
+        trapezoidProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(config.maxVelocityMetersPerSec(), config.maxAccelerationMetersPerSecSquared()));  
+        exponentialProfile = new ExponentialProfile(ExponentialProfile.Constraints.fromCharacteristics(12.0, config.voltageKv(), config.voltageKa()));
         slewRateLimiter = new SlewRateLimiter(config.maxAccelerationMetersPerSecSquared());   
     }
 
@@ -70,81 +72,81 @@ public class REV_MAXElevatorMotor extends CANSparkMax implements ElevatorMotor {
 
     @Override
     public double getPositionMeters() {
-        return getEncoder().getPosition;
+        return getEncoder().getPosition();
     }
 
     @Override
     public void setLinearPosition(double positionMeters) {
-        getEncoder(positionMeters).setPosition;
+        getEncoder().setPosition(positionMeters);
     }
 
     @Override
     public double getVelocityMetersPerSecond() {
-        return getEncoder().getVelocity;
+        return getEncoder().getVelocity();
     }
 
     @Override
     public void accept(VoltageRequest request) {
-        getPIDController().setReference;
-        //passing in volts from request and ControlType.kVoltage
+        getPIDController().setReference(request.getVolts(), ControlType.kVoltage);
     }
 
     @Override
     public void accept(CurrentRequest request) {
-        // TODO: call getPIDController().setReference passing in current from request and ControlType.kCurrent
+        getPIDController().setReference(request.getCurrentAmps(), ControlType.kCurrent);
     }
 
     @Override
     public void acceptPositionVoltage(LinearPositionRequest request) {
-        // TODO: create a double feedforwardVoltage variable and initialize to feedfoward.calculate() passing in
-        // getVelocityMetersPerSecond and 0.0 and 0.020
-        // TODO: call getPIDController().setReference passing in position from request, ControlType.kPosition, 0, feedforwardVoltage, ArbFFUnits.kVoltage
-        // TODO: set lastTrapState.position to getPositionMeters
-        // TODO: set lastTrapState.velocity similarly to position but for velocity.
-        // TODO: call trackExpoFromTrap()
+        double feedforwardVoltage = feedforward.calculate(getVelocityMetersPerSecond(), 0.0, 0.020);
+        getPIDController().setReference(request.getPositionMeters(), ControlType.kPosition, 0, feedforwardVoltage, ArbFFUnits.kVoltage );
+        lastTrapState.position = getPositionMeters();
+        lastTrapState.velocity = getVelocityMetersPerSecond();
+        trackExpoFromTrap();
     }
 
 
     @Override
     public void acceptTrapPositionVoltage(LinearPositionRequest request) {
-        // TODO: set trapGoalState.position to the position stored in request.
-        // TODO: set trapGoalState.velocity to 0.0;
-        // TODO: set lastTrapState to trapezoidProfile.calculate(0.020, lastTrapState, trapGoalState)
-        // TODO: create a double called feedForwardVoltage and get from feedfoward.calculate(getVelocity from request, lastTrapState.velocity, 0.020)
-        // TODO: call getPIDController().setReference passing in lastTrapState.position, Controltype.kPosition, 0, feedforwardVoltags, ArbFFUnits.kVoltage
-        // TODO: call trackExpoFromTrap()
+        trapGoalState.position = request.getPositionMeters();
+        trapGoalState.velocity = 0.0;
+        lastTrapState = trapezoidProfile.calculate(0.020, lastTrapState, trapGoalState);
+        double feedforwardVoltage= feedforward.calculate(getVelocityMetersPerSecond(), lastTrapState.velocity, 0.020);
+        getPIDController().setReference(lastTrapState.position, ControlType.kPosition, 0, feedforwardVoltage, ArbFFUnits.kVoltage);
+        trackExpoFromTrap();
     }
 
     @Override
     public void acceptExpoPositionVoltage(LinearPositionRequest request) {
-        // TODO: set expoGoalState.position to position from request passing in angle from request
-        // TODO: set expoGoalState.velocity to 0.0;
-        // TODO: set lastExpoState to exponentialProfile.calculate(0.020, lastExpoState, expoGoalState)
-        // TODO: create a double called feedForwardVoltage and get from feedfoward.calculate(getVelocity, lastTrapState.velocity, 0.020)
-        // TODO: call getPIDController().setReference passing in lastExpoState.position, Controltype.kPosition, 0, feedforwardVoltags, ArbFFUnits.kVoltage
-        // TODO: call trackTrapFromExpo()
+        expoGoalState.position = //position from request passing in angle from request
+        expoGoalState.velocity = 0.0;
+        lastExpoState = exponentialProfile.calculate(0.020, lastExpoState, expoGoalState);
+        double feedForwardVoltage = feedfoward.calculate(getVelocity, lastTrapState.velocity, 0.020);
+        getPIDController().setReference(lastExpoState.position, Controltype.kPosition, 0, feedforwardVoltags, ArbFFUnits.kVoltage);
+        trackTrapFromExpo();
     }
 
 
     @Override
     public void acceptVelocityVoltage(LinearVelocityRequest request) {
-        // TODO: create a double called feedforwardVoltage and get from feedforward.calculate(getVelocity, velocity from request, 0.020);
-        // TODO: call getPIDController().setReference passing in velocity from request, ControlType.kVelocity, 1, feedfowardVoltage, ArbFFUnits.kVoltage
-        // TODO: set lastTrapState.position to getPosition
-        // TODO: repeat for lastTrapState.velocity using velocity
-        // TODO: set lastExpoState.position to lastTrapState.position
-        // TODO: repeat for lastExpoState's velocity
-        // TODO: call slewRateLimiter's reset method passing in lastTrapState.velocity
+        double feedforwardVoltage = feedforward.calculate(request.getVelocityMetersPerSecond(), 0.020);
+        getPIDController().setReference(LinearVelocityRequest, ControlType.kVelocity, 1, feedfowardVoltage, ArbFFUnits.kVoltage);
+        lastTrapState.position = getPositionMeters();
+        lastTrapState.velocity = getVelocityMetersPerSecond();
+        lastExpoState.position = lastTrapState.position;
+        lastExpoState.velocity = lastExpoState.velocity;
+        slewRateLimiter.reset(lastTrapState.velocity);
     }
 
     @Override
     public void acceptTrapVelocityVoltage(LinearVelocityRequest request) {
-        // TODO: set lastTrapState.velocity to slewRateLimiter.calculate(passing in velocity from request.
-        // TODO: create a double called feedfowardVoltage and get from feedfoward.calculate() passing getVelocity, velocity from request, 0.020
-        // TODO: call getPIDController().setReference passing in lastTrapState.velocity, ControlType.kVelocity, 1, feedfowardVoltage, ArbFFUnits.kVoltage
-        // TODO: set lastTrapState.position to getPosition
-        // TODO: set lastExpoState.position to lastTrapState.position
-        // TODO: repeat for lastExpoState's velocity.
+        lastTrapState.velocity = slewRateLimiter.calculate(request.getVelocityMetersPerSecond());
+        double feedfowardVoltage = feedforward.calculate(getVelocityMetersPerSecond(), lastTrapState.velocity, 0.020);
+        getPIDController().setReference(lastTrapState.velocity, ControlType.kVelocity, 1, feedfowardVoltage, ArbFFUnits.kVoltage);
+        lastTrapState.position = getPositionMeters();
+        lastExpoState.position = lastTrapState.position;
+        lastTrapState.velocity = getVelocityMetersPerSecond();
+        lastExpoState.velocity = lastTrapState.velocity;
+
     }
 
     @Override
